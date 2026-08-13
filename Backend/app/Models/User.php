@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -23,7 +24,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'username',
+        'phone',
         'password',
+        'role',
+        'status',
     ];
 
     /**
@@ -37,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
@@ -50,10 +54,36 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Relationships
+     */
+
+  public function driverProfile(): HasOne
+{
+    return $this->hasOne(DriverProfile::class);
+}
+
+public function restaurant(): HasOne
+{
+    return $this->hasOne(Restaurant::class, 'manager_id');
+}
+
+public function orders(): HasMany
+{
+    return $this->hasMany(Order::class, 'customer_id');
+}
+
+public function cartItems(): HasMany
+{
+    return $this->hasMany(CartItem::class, 'customer_id');
+}
+
+public function ratings(): HasMany
+{
+    return $this->hasMany(Rating::class, 'customer_id');
+}
+
+    /**
      * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
      */
     public function sendPasswordResetNotification($token)
     {

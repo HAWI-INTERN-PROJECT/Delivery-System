@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -17,10 +19,18 @@ class UserTest extends TestCase
     {
         $user = new User();
 
-        $this->assertEquals(
-            ['name', 'email', 'username', 'password'],
-            $user->getFillable()
-        );
+       $this->assertEquals(
+    [
+        'name',
+        'email',
+        'username',
+        'phone',
+        'password',
+        'role',
+        'status',
+    ],
+    $user->getFillable()
+);
     }
 
     public function test_user_has_hidden_attributes(): void
@@ -103,4 +113,55 @@ class UserTest extends TestCase
 
         User::factory()->create(['username' => 'taken']);
     }
+
+  public function test_user_has_driver_profile_relationship(): void
+{
+    $user = new User();
+
+    $this->assertInstanceOf(
+        HasOne::class,
+        $user->driverProfile()
+    );
+}
+
+public function test_user_has_restaurant_relationship(): void
+{
+    $user = new User();
+
+    $this->assertInstanceOf(
+        HasOne::class,
+        $user->restaurant()
+    );
+}
+
+public function test_user_has_orders_relationship(): void
+{
+    $user = new User();
+
+    $this->assertInstanceOf(
+        HasMany::class,
+        $user->orders()
+    );
+}
+
+public function test_user_has_cart_items_relationship(): void
+{
+    $user = new User();
+
+    $this->assertInstanceOf(
+        HasMany::class,
+        $user->cartItems()
+    );
+}
+
+public function test_user_has_ratings_relationship(): void
+{
+    $user = new User();
+
+    $this->assertInstanceOf(
+        HasMany::class,
+        $user->ratings()
+    );
+}
+
 }
