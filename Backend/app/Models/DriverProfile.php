@@ -22,11 +22,17 @@ class DriverProfile extends Model
         'is_online' => 'boolean',
     ];
 
+    /**
+     * @return BelongsTo<User, DriverProfile>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return HasMany<DriverLocation, DriverProfile>
+     */
     public function locations(): HasMany
     {
         return $this->hasMany(DriverLocation::class);

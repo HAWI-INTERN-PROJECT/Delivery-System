@@ -23,6 +23,9 @@ class DriverLocation extends Model
         'recorded_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<DriverProfile, DriverLocation>
+     */
     public function driverProfile(): BelongsTo
     {
         return $this->belongsTo(DriverProfile::class);
