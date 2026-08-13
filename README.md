@@ -76,18 +76,18 @@ Application: http://localhost:5173
 
 ## API Endpoints
 
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/v1/register` | Register user | No |
-| POST | `/api/v1/login` | Login | No |
-| POST | `/api/v1/logout` | Logout | Yes |
-| GET | `/api/v1/profile` | Get profile | Yes |
-| PUT | `/api/v1/change-password` | Change password | Yes |
-| GET | `/api/v1/health` | Health check | No |
-| POST | `/api/v1/forgot-password` | Request password reset | No |
-| POST | `/api/v1/reset-password` | Reset password | No |
-| GET | `/api/v1/email/verify/{id}/{hash}` | Verify email | No |
-| POST | `/api/v1/email/resend` | Resend verification | Yes |
+| Method | Endpoint                           | Description            | Auth |
+| ------ | ---------------------------------- | ---------------------- | ---- |
+| POST   | `/api/v1/register`                 | Register user          | No   |
+| POST   | `/api/v1/login`                    | Login                  | No   |
+| POST   | `/api/v1/logout`                   | Logout                 | Yes  |
+| GET    | `/api/v1/profile`                  | Get profile            | Yes  |
+| PUT    | `/api/v1/change-password`          | Change password        | Yes  |
+| GET    | `/api/v1/health`                   | Health check           | No   |
+| POST   | `/api/v1/forgot-password`          | Request password reset | No   |
+| POST   | `/api/v1/reset-password`           | Reset password         | No   |
+| GET    | `/api/v1/email/verify/{id}/{hash}` | Verify email           | No   |
+| POST   | `/api/v1/email/resend`             | Resend verification    | Yes  |
 
 ## API Response Format
 
@@ -113,35 +113,35 @@ All responses follow consistent JSON format:
 
 ### Backend
 
-| Tool | Purpose |
-|---|---|
-| Laravel 12 | PHP framework |
-| PHP 8.2+ | Language |
-| Laravel Sanctum | API token authentication |
-| grazulex/laravel-apiroute | API versioning |
-| dedoc/scramble | Auto-generated API docs |
-| Laravel Pint | Code style |
-| PHPUnit | Testing |
-| PHPStan/Larastan | Static analysis (level 6) |
-| opcodesio/log-viewer | Web log viewer |
+| Tool                      | Purpose                   |
+| ------------------------- | ------------------------- |
+| Laravel 12                | PHP framework             |
+| PHP 8.2+                  | Language                  |
+| Laravel Sanctum           | API token authentication  |
+| grazulex/laravel-apiroute | API versioning            |
+| dedoc/scramble            | Auto-generated API docs   |
+| Laravel Pint              | Code style                |
+| PHPUnit                   | Testing                   |
+| PHPStan/Larastan          | Static analysis (level 6) |
+| opcodesio/log-viewer      | Web log viewer            |
 
 ### Frontend
 
-| Tool | Purpose |
-|---|---|
-| React 19 | UI library |
-| TypeScript | Type safety |
-| Vite 8 | Build tool |
-| Tailwind CSS 4 | Styling |
-| shadcn/ui | UI components |
-| Zustand | State management |
-| TanStack React Query | Server state |
-| React Router | Routing |
-| React Hook Form | Forms |
-| Zod | Validation |
-| Axios | HTTP client |
-| Vitest | Testing |
-| i18next | Internationalization (en, am) |
+| Tool                 | Purpose                       |
+| -------------------- | ----------------------------- |
+| React 19             | UI library                    |
+| TypeScript           | Type safety                   |
+| Vite 8               | Build tool                    |
+| Tailwind CSS 4       | Styling                       |
+| shadcn/ui            | UI components                 |
+| Zustand              | State management              |
+| TanStack React Query | Server state                  |
+| React Router         | Routing                       |
+| React Hook Form      | Forms                         |
+| Zod                  | Validation                    |
+| Axios                | HTTP client                   |
+| Vitest               | Testing                       |
+| i18next              | Internationalization (en, am) |
 
 ## Testing
 
@@ -157,15 +157,15 @@ php artisan test --filter=AuthTest  # Specific test class
 
 **Test coverage:**
 
-| Test Class | Tests | Coverage |
-|---|---|---|
-| AuthTest | 15 | Register, Login, Logout, Profile, Health |
-| ChangePasswordTest | 7 | Password change, validation |
-| EmailVerificationTest | 6 | Verify, resend, invalid hash |
-| PasswordResetTest | 8 | Forgot/reset password |
-| RateLimitingTest | 5 | Throttle behavior |
-| UserTest | 9 | Model, factory, hashing |
-| **Total** | **50** | |
+| Test Class            | Tests  | Coverage                                 |
+| --------------------- | ------ | ---------------------------------------- |
+| AuthTest              | 15     | Register, Login, Logout, Profile, Health |
+| ChangePasswordTest    | 7      | Password change, validation              |
+| EmailVerificationTest | 6      | Verify, resend, invalid hash             |
+| PasswordResetTest     | 8      | Forgot/reset password                    |
+| RateLimitingTest      | 5      | Throttle behavior                        |
+| UserTest              | 9      | Model, factory, hashing                  |
+| **Total**             | **50** |                                          |
 
 ### Frontend (Vitest)
 
@@ -178,18 +178,18 @@ npm run test:coverage # With coverage
 
 **Test coverage:**
 
-| Test File | Tests | Coverage |
-|---|---|---|
-| button.test.tsx | 10 | Variants, sizes, disabled, ref |
-| input.test.tsx | 7 | Types, placeholder, disabled |
-| label.test.tsx | 3 | Rendering, styling |
-| card.test.tsx | 6 | All card sub-components |
-| LoginPage.test.tsx | 5 | Form, validation, submit |
-| RegisterPage.test.tsx | 6 | Form, validation, password match |
-| DashboardPage.test.tsx | 5 | User info, logout |
-| auth.test.ts | 6 | Login, logout, profile, token |
-| utils.test.ts | 5 | cn() function |
-| **Total** | **53+** | |
+| Test File              | Tests   | Coverage                         |
+| ---------------------- | ------- | -------------------------------- |
+| button.test.tsx        | 10      | Variants, sizes, disabled, ref   |
+| input.test.tsx         | 7       | Types, placeholder, disabled     |
+| label.test.tsx         | 3       | Rendering, styling               |
+| card.test.tsx          | 6       | All card sub-components          |
+| LoginPage.test.tsx     | 5       | Form, validation, submit         |
+| RegisterPage.test.tsx  | 6       | Form, validation, password match |
+| DashboardPage.test.tsx | 5       | User info, logout                |
+| auth.test.ts           | 6       | Login, logout, profile, token    |
+| utils.test.ts          | 5       | cn() function                    |
+| **Total**              | **53+** |                                  |
 
 ## Code Quality
 
@@ -214,12 +214,14 @@ bash scripts/check-naming.sh        # Naming conventions
 ## Features
 
 ### Backend
+
 - **Activity Logging** — User actions logged to `storage/logs/activity.log`
 - **API Response Format** — Consistent JSON responses
 - **Static Analysis** — PHPStan/Larastan level 6
 - **Log Viewer** — Web UI at `/logs`
 
 ### Frontend
+
 - **Dark Mode** — Light/dark/system theme toggle
 - **i18n** — English + Amharic translations
 - **Error Handling** — ErrorBoundary + 404 page
@@ -279,3 +281,5 @@ GitHub Actions pipeline runs on push/PR to `develop`:
 - [Dark Mode](Frontend/docs/dark-mode.md)
 - [i18n](Frontend/docs/i18n.md)
 - [Pre-commit Hooks](Frontend/docs/pre-commit-hooks.md)
+
+Ahmed Jhor Nure
