@@ -283,3 +283,4 @@ GitHub Actions pipeline runs on push/PR to `develop`:
 - [Pre-commit Hooks](Frontend/docs/pre-commit-hooks.md)
 
 Ahmed Jhor Nure
+Name: Fiteh Tesfaye
