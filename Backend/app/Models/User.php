@@ -54,29 +54,44 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Relationships
-     */
+ * Relationships
+ */
 
-  public function driverProfile(): HasOne
+/**
+ * @return HasOne<DriverProfile, $this>
+ */
+public function driverProfile(): HasOne
 {
     return $this->hasOne(DriverProfile::class);
 }
 
+/**
+ * @return HasOne<Restaurant, $this>
+ */
 public function restaurant(): HasOne
 {
     return $this->hasOne(Restaurant::class, 'manager_id');
 }
 
+/**
+ * @return HasMany<Order, $this>
+ */
 public function orders(): HasMany
 {
     return $this->hasMany(Order::class, 'customer_id');
 }
 
+/**
+ * @return HasMany<CartItem, $this>
+ */
 public function cartItems(): HasMany
 {
     return $this->hasMany(CartItem::class, 'customer_id');
 }
 
+/**
+ * @return HasMany<Rating, $this>
+ */
 public function ratings(): HasMany
 {
     return $this->hasMany(Rating::class, 'customer_id');

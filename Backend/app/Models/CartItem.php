@@ -20,11 +20,17 @@ class CartItem extends Model
         'quantity' => 'integer',
     ];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'customer_id');
     }
 
+    /**
+     * @return BelongsTo<MenuItem, $this>
+     */
     public function menuItem(): BelongsTo
     {
         return $this->belongsTo(MenuItem::class);

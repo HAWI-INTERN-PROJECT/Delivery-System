@@ -24,7 +24,7 @@ class DriverLocation extends Model
     ];
 
     /**
-     * @return BelongsTo<DriverProfile, DriverLocation>
+     * @return BelongsTo<DriverProfile, $this>
      */
     public function driverProfile(): BelongsTo
     {

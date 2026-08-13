@@ -14,10 +14,10 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'menu_item_id',
-        'item_name',
         'quantity',
         'unit_price',
         'subtotal',
+        'item_name',
     ];
 
     protected $casts = [
@@ -26,16 +26,25 @@ class OrderItem extends Model
         'subtotal' => 'decimal:2',
     ];
 
+    /**
+     * @return BelongsTo<Order, $this>
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * @return BelongsTo<MenuItem, $this>
+     */
     public function menuItem(): BelongsTo
     {
         return $this->belongsTo(MenuItem::class);
     }
 
+    /**
+     * @return HasOne<Rating, $this>
+     */
     public function rating(): HasOne
     {
         return $this->hasOne(Rating::class);

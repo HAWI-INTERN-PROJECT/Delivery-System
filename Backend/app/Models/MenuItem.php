@@ -19,6 +19,7 @@ class MenuItem extends Model
         'price',
         'is_available',
         'image',
+
     ];
 
     protected $casts = [
@@ -26,26 +27,41 @@ class MenuItem extends Model
         'is_available' => 'boolean',
     ];
 
+    /**
+     * @return BelongsTo<Restaurant, $this>
+     */
     public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class);
     }
 
+    /**
+     * @return BelongsTo<Category, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * @return HasMany<CartItem, $this>
+     */
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
     }
 
+    /**
+     * @return HasMany<OrderItem, $this>
+     */
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
+    /**
+     * @return HasMany<Rating, $this>
+     */
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);

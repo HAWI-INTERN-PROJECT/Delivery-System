@@ -34,26 +34,41 @@ class Order extends Model
         'delivered_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'customer_id');
     }
 
+    /**
+     * @return BelongsTo<Restaurant, $this>
+     */
     public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function driver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'driver_id');
     }
 
+    /**
+     * @return HasMany<OrderItem, $this>
+     */
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
+    /**
+     * @return HasOne<Payment, $this>
+     */
     public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);

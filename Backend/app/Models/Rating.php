@@ -22,16 +22,25 @@ class Rating extends Model
         'rating' => 'integer',
     ];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'customer_id');
     }
 
+    /**
+     * @return BelongsTo<MenuItem, $this>
+     */
     public function menuItem(): BelongsTo
     {
         return $this->belongsTo(MenuItem::class);
     }
 
+    /**
+     * @return BelongsTo<OrderItem, $this>
+     */
     public function orderItem(): BelongsTo
     {
         return $this->belongsTo(OrderItem::class);

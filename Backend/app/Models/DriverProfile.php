@@ -23,7 +23,7 @@ class DriverProfile extends Model
     ];
 
     /**
-     * @return BelongsTo<User, DriverProfile>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -31,7 +31,7 @@ class DriverProfile extends Model
     }
 
     /**
-     * @return HasMany<DriverLocation, DriverProfile>
+     * @return HasMany<DriverLocation, $this>
      */
     public function locations(): HasMany
     {

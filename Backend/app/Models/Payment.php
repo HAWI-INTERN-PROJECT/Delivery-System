@@ -12,11 +12,10 @@ class Payment extends Model
 
     protected $fillable = [
         'order_id',
-        'payment_method',
-        'payment_provider',
-        'transaction_reference',
         'amount',
+        'payment_method',
         'status',
+        'transaction_reference',
         'paid_at',
     ];
 
@@ -25,6 +24,9 @@ class Payment extends Model
         'paid_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<Order, $this>
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
