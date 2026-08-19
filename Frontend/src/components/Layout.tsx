@@ -1,4 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
+import { useAuthStore } from '@/stores/auth'
 import {
   SidebarProvider,
   Sidebar,
@@ -11,10 +12,11 @@ import {
   SidebarTrigger,
 } from './ui/sidebar'
 import Navbar from './Navbar'
-import { LayoutDashboard, Store, Tags, Package, Users, Settings } from 'lucide-react'
+import { LayoutDashboard, Store, Tags, Package, Users, Settings, BarChart3 } from 'lucide-react'
 
 export default function Layout() {
   const location = useLocation()
+  const { user } = useAuthStore()
 
   const pageTitles: Record<string, string> = {
     '/': 'Dashboard',
@@ -23,6 +25,7 @@ export default function Layout() {
     '/orders': 'Orders',
     '/users': 'Users',
     '/settings': 'Settings',
+    '/statistics': 'Statistics',
   }
 
   const currentTitle = pageTitles[location.pathname] || 'Dashboard'
@@ -102,6 +105,18 @@ export default function Layout() {
         <span className="group-data-[collapsible=icon]:hidden">Settings</span>
       </SidebarMenuButton>
     </SidebarMenuItem>
+
+      <SidebarMenuItem>
+  <SidebarMenuButton
+    render={<Link to="/statistics" />}
+    isActive={location.pathname === '/statistics'}
+    className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+  >
+    <BarChart3 />
+    <span className="group-data-[collapsible=icon]:hidden">Statistics</span>
+  </SidebarMenuButton>
+</SidebarMenuItem>
+
   </SidebarMenu>
 </SidebarContent>
 
@@ -111,8 +126,8 @@ export default function Layout() {
                 A
               </div>
               <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
-                <span className="text-sm font-medium truncate">Amanuel Legese</span>
-                <span className="text-xs text-muted-foreground truncate">admin@company.com</span>
+                    <span className="text-sm font-medium truncate">{user?.name ?? 'Guest'}</span>
+                    <span className="text-xs text-muted-foreground truncate">{user?.email ?? ''}</span>
               </div>
             </div>
           </SidebarFooter>
