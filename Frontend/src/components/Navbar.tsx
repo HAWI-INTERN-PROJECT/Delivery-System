@@ -1,6 +1,8 @@
+import { useAuthStore } from '@/stores/auth'
 import { useNotifications } from '@/hooks/useNotifications'
 export default function Navbar({ title = 'Dashboard' }) {
   const { count } = useNotifications()
+  const { user } = useAuthStore()
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-white w-full">
       <h1 className="text-lg font-semibold">{title}</h1>
@@ -40,11 +42,10 @@ export default function Navbar({ title = 'Dashboard' }) {
 </button>
 
         <div
-          className="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm"
-          title="Admin"
-        >
-          A
-        </div>
+              className="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm"
+              title={user?.name ?? 'Guest'}  >
+                {user?.name?.charAt(0).toUpperCase() ?? 'G'}
+          </div>
       </div>
     </header>
   )

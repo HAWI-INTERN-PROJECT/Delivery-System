@@ -123,8 +123,8 @@ export default function Layout() {
           <SidebarFooter className="p-3 group-data-[collapsible=icon]:p-2">
             <div className="flex items-center gap-3 rounded-lg border p-2 bg-sidebar-accent/50 group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:justify-center">
               <div className="w-9 h-9 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm font-medium shrink-0">
-                A
-              </div>
+                      {user?.name?.charAt(0).toUpperCase() ?? 'G'}
+                      </div>
               <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
                     <span className="text-sm font-medium truncate">{user?.name ?? 'Guest'}</span>
                     <span className="text-xs text-muted-foreground truncate">{user?.email ?? ''}</span>

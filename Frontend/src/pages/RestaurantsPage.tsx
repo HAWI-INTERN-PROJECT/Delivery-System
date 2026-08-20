@@ -1,6 +1,6 @@
 
 
-export default function Restaurants() {
+export default function RestaurantsPage() {
   return (
     <div>Restaurants</div>
   )
