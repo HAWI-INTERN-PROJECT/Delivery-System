@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read string $name
  * @property-read string $email
  * @property-read string $username
+ * @property-read string $phone
  * @property-read \Carbon\Carbon|null $email_verified_at
  * @property-read \Carbon\Carbon|null $created_at
  * @property-read \Carbon\Carbon|null $updated_at
@@ -28,6 +29,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'username' => $this->username,
+            'phone' => $this->phone,
             'email_verified_at' => $this->email_verified_at?->toDateTimeString(),
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),

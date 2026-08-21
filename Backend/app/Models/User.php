@@ -3,16 +3,21 @@
 namespace App\Models;
 
 use App\Notifications\V1\ResetPasswordNotification;
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
+
+    /** @use HasFactory<UserFactory> */
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +28,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'username',
+        'phone',
         'password',
+        'role',
+        'status',
     ];
 
     /**
@@ -37,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
@@ -50,10 +58,51 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Relationships
+     */
+
+    /**
+     * @return HasOne<DriverProfile, $this>
+     */
+    public function driverProfile(): HasOne
+    {
+        return $this->hasOne(DriverProfile::class);
+    }
+
+    /**
+     * @return HasMany<Restaurant, $this>
+     */
+   public function restaurants(): HasMany
+{
+    return $this->hasMany(Restaurant::class, 'manager_id');
+}
+
+    /**
+     * @return HasMany<Order, $this>
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    /**
+     * @return HasMany<CartItem, $this>
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class, 'customer_id');
+    }
+
+    /**
+     * @return HasMany<Rating, $this>
+     */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class, 'customer_id');
+    }
+
+    /**
      * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
      */
     public function sendPasswordResetNotification($token)
     {

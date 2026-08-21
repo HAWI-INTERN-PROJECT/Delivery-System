@@ -79,7 +79,7 @@ Stores all registered users of the platform. Customers, Restaurant Managers, Dri
 | `name`              | VARCHAR(255)    | NOT NULL                     | Full name of the user.                                  |
 | `email`             | VARCHAR(255)    | NOT NULL, UNIQUE             | Email address used for authentication.                  |
 | `username`          | VARCHAR(255)    | NOT NULL, UNIQUE             | Username used by the authentication system.             |
-| `phone`             | VARCHAR(20)     | NOT NULL, UNIQUE                 | User's primary contact number.                          |
+| `phone`             | VARCHAR(20)     | NOT NULL, UNIQUE             | User's primary contact number.                          |
 | `password`          | VARCHAR(255)    | NOT NULL                     | Hashed password.                                        |
 | `role`              | ENUM            | NOT NULL, DEFAULT `customer` | `customer`, `restaurant_manager`, `driver`, or `admin`. |
 | `status`            | ENUM            | NOT NULL, DEFAULT `active`   | `active`, `inactive`, or `suspended`.                   |
@@ -89,14 +89,14 @@ Stores all registered users of the platform. Customers, Restaurant Managers, Dri
 
 ### Indexes
 
-| Column     | Index Type  | Purpose                                        |
-| ---------- | ----------- | ---------------------------------------------- |
-| `id`       | Primary Key | Unique record identification.                  |
-| `email`    | UNIQUE      | Prevent duplicate email addresses.             |
-| `username` | UNIQUE      | Prevent duplicate usernames.                   |
-| `phone`    | UNIQUE      | Prevent duplicate phone numbers. |
-| `role`     | INDEX       | Improve role-based queries.                    |
-| `status`   | INDEX       | Improve account-status filtering.              |
+| Column     | Index Type  | Purpose                            |
+| ---------- | ----------- | ---------------------------------- |
+| `id`       | Primary Key | Unique record identification.      |
+| `email`    | UNIQUE      | Prevent duplicate email addresses. |
+| `username` | UNIQUE      | Prevent duplicate usernames.       |
+| `phone`    | UNIQUE      | Prevent duplicate phone numbers.   |
+| `role`     | INDEX       | Improve role-based queries.        |
+| `status`   | INDEX       | Improve account-status filtering.  |
 
 ### Relationships
 
@@ -114,15 +114,22 @@ Stores all registered users of the platform. Customers, Restaurant Managers, Dri
 
 Stores information specific to drivers. Each driver account has one driver profile containing delivery-related information.
 
-| Column Name      | Data Type       | Constraints                       | Description                                |
-| ---------------- | --------------- | --------------------------------- | ------------------------------------------ |
-| `id`             | BIGINT UNSIGNED | Primary Key, Auto Increment       | Unique driver profile identifier.          |
-| `user_id`        | BIGINT UNSIGNED | NOT NULL, UNIQUE, FK → `users.id` | Associated driver account.                 |
-| `vehicle_type`   | VARCHAR(100)    | NOT NULL                          | Type of vehicle used for deliveries.       |
-| `license_number` | VARCHAR(100)    | NULL, UNIQUE                      | Driver's license number.                   |
-| `is_online`      | BOOLEAN         | NOT NULL, DEFAULT FALSE           | Indicates whether the driver is available. |
-| `created_at`     | TIMESTAMP       | Auto Generated                    | Record creation timestamp.                 |
-| `updated_at`     | TIMESTAMP       | Auto Generated                    | Record update timestamp.                   |
+| Column Name       | Data Type       | Constraints                       | Description                                                   |
+| ----------------- | --------------- | --------------------------------- | ------------------------------------------------------------- | --- |
+| `id`              | BIGINT UNSIGNED | Primary Key, Auto Increment       | Unique driver profile identifier.                             |
+| `user_id`         | BIGINT UNSIGNED | NOT NULL, UNIQUE, FK → `users.id` | Associated driver account.                                    |
+| `vehicle_type`    | VARCHAR(100)    | NOT NULL                          | Type of vehicle used for deliveries.                          |
+| `license_number`  | VARCHAR(100)    | NULL, UNIQUE                      | Driver's license number.                                      |
+| `approval_status` | ENUM            | NOT NULL, DEFAULT `pending`       | Driver approval status: `pending`, `approved`, or `rejected`. |     |
+| `is_online`       | BOOLEAN         | NOT NULL, DEFAULT FALSE           | Indicates whether the driver is available.                    |
+| `created_at`      | TIMESTAMP       | Auto Generated                    | Record creation timestamp.                                    |
+| `updated_at`      | TIMESTAMP       | Auto Generated                    | Record update timestamp.                                      |
+
+### Indexes
+
+| Column            | Index Type | Purpose                                       |
+| ----------------- | ---------- | --------------------------------------------- |
+| `approval_status` | INDEX      | Improve filtering drivers by approval status. |
 
 ### Foreign Keys
 
@@ -136,6 +143,7 @@ Stores information specific to drivers. Each driver account has one driver profi
 - One Driver Profile belongs to one User.
 - One Driver Profile can be assigned to many orders.
 - One Driver Profile can have many location records.
+- A driver must be approved before being allowed to receive delivery assignments.
 
 ---
 
@@ -201,18 +209,24 @@ Stores categories used to organize menu items.
 
 Stores food and grocery items offered by restaurants.
 
-| Column Name     | Data Type       | Constraints                     | Description                    |
-| --------------- | --------------- | ------------------------------- | ------------------------------ |
-| `id`            | BIGINT UNSIGNED | Primary Key, Auto Increment     | Unique menu item identifier.   |
-| `restaurant_id` | BIGINT UNSIGNED | NOT NULL, FK → `restaurants.id` | Restaurant offering the item.  |
-| `category_id`   | BIGINT UNSIGNED | NOT NULL, FK → `categories.id`  | Category of the item.          |
-| `name`          | VARCHAR(255)    | NOT NULL                        | Menu item name.                |
-| `description`   | TEXT            | NULL                            | Optional description.          |
-| `price`         | DECIMAL(10,2)   | NOT NULL                        | Current selling price.         |
-| `is_available`  | BOOLEAN         | NOT NULL, DEFAULT TRUE          | Whether the item is available. |
-| `image`         | VARCHAR(255)    | NULL                            | Menu item image path.          |
-| `created_at`    | TIMESTAMP       | Auto Generated                  | Record creation timestamp.     |
-| `updated_at`    | TIMESTAMP       | Auto Generated                  | Record update timestamp.       |
+| Column Name     | Data Type       | Constraints                     | Description                                       |
+| --------------- | --------------- | ------------------------------- | ------------------------------------------------- |
+| `id`            | BIGINT UNSIGNED | Primary Key, Auto Increment     | Unique menu item identifier.                      |
+| `restaurant_id` | BIGINT UNSIGNED | NOT NULL, FK → `restaurants.id` | Restaurant offering the item.                     |
+| `category_id`   | BIGINT UNSIGNED | NOT NULL, FK → `categories.id`  | Category of the item.                             |
+| `name`          | VARCHAR(255)    | NOT NULL                        | Menu item name.                                   |
+| `description`   | TEXT            | NULL                            | Optional description.                             |
+| `price`         | DECIMAL(10,2)   | NOT NULL, CHECK > 0             | Current selling price. Must be greater than zero. |
+| `is_available`  | BOOLEAN         | NOT NULL, DEFAULT TRUE          | Whether the item is available.                    |
+| `image`         | VARCHAR(255)    | NULL                            | Menu item image path.                             |
+| `created_at`    | TIMESTAMP       | Auto Generated                  | Record creation timestamp.                        |
+| `updated_at`    | TIMESTAMP       | Auto Generated                  | Record update timestamp.                          |
+
+### Indexes
+
+| Column | Index Type | Purpose                          |
+| ------ | ---------- | -------------------------------- |
+| `name` | INDEX      | Improve menu item name searches. |
 
 ### Foreign Keys
 
@@ -245,6 +259,12 @@ Stores the items currently selected by customers before checkout.
 | `quantity`     | INT             | NOT NULL, DEFAULT 1            | Quantity selected.               |
 | `created_at`   | TIMESTAMP       | Auto Generated                 | Record creation timestamp.       |
 | `updated_at`   | TIMESTAMP       | Auto Generated                 | Record update timestamp.         |
+
+### Indexes
+
+| Column                          | Index Type | Purpose                                                       |
+| ------------------------------- | ---------- | ------------------------------------------------------------- |
+| (`customer_id`, `menu_item_id`) | UNIQUE     | Ensure a customer has only one cart entry for each menu item. |
 
 ### Foreign Keys
 
@@ -307,17 +327,17 @@ Stores customer orders from placement through delivery. Each order is associated
 
 Stores each individual item included in an order. Item information is preserved at checkout so that historical orders remain accurate even if the menu item changes later.
 
-| Column Name    | Data Type       | Constraints                 | Description                      |
-| -------------- | --------------- | --------------------------- | -------------------------------- |
-| `id`           | BIGINT UNSIGNED | Primary Key, Auto Increment | Unique order item identifier.    |
-| `order_id`     | BIGINT UNSIGNED | NOT NULL, FK → `orders.id`  | Order containing the item.       |
-| `menu_item_id` | BIGINT UNSIGNED | NULL, FK → `menu_items.id`  | Original menu item reference.    |
-| `item_name`    | VARCHAR(255)    | NOT NULL                    | Item name at purchase time.      |
-| `quantity`     | INT             | NOT NULL                    | Quantity ordered.                |
-| `unit_price`   | DECIMAL(10,2)   | NOT NULL                    | Price per unit at purchase time. |
-| `subtotal`     | DECIMAL(10,2)   | NOT NULL                    | Quantity × unit price.           |
-| `created_at`   | TIMESTAMP       | Auto Generated              | Record creation timestamp.       |
-| `updated_at`   | TIMESTAMP       | Auto Generated              | Record update timestamp.         |
+| Column Name    | Data Type       | Constraints                 | Description                                  |
+| -------------- | --------------- | --------------------------- | -------------------------------------------- |
+| `id`           | BIGINT UNSIGNED | Primary Key, Auto Increment | Unique order item identifier.                |
+| `order_id`     | BIGINT UNSIGNED | NOT NULL, FK → `orders.id`  | Order containing the item.                   |
+| `menu_item_id` | BIGINT UNSIGNED | NULL, FK → `menu_items.id`  | Original menu item reference.                |
+| `item_name`    | VARCHAR(255)    | NOT NULL                    | Item name at purchase time.                  |
+| `quantity`     | INT UNSIGNED    | NOT NULL, CHECK > 0         | Quantity ordered. Must be greater than zero. |
+| `unit_price`   | DECIMAL(10,2)   | NOT NULL                    | Price per unit at purchase time.             |
+| `subtotal`     | DECIMAL(10,2)   | NOT NULL                    | Quantity × unit price.                       |
+| `created_at`   | TIMESTAMP       | Auto Generated              | Record creation timestamp.                   |
+| `updated_at`   | TIMESTAMP       | Auto Generated              | Record update timestamp.                     |
 
 ### Foreign Keys
 
@@ -388,17 +408,17 @@ The `order_item_id` relationship connects the rating to a specific purchased ite
 
 Stores online payment information associated with customer orders. Payments are processed through supported online payment methods rather than being collected by the driver.
 
-| Column Name             | Data Type       | Constraints                        | Description                                            |
-| ----------------------- | --------------- | ---------------------------------- | ------------------------------------------------------ |
-| `id`                    | BIGINT UNSIGNED | Primary Key, Auto Increment        | Unique payment identifier.                             |
-| `order_id`              | BIGINT UNSIGNED | NOT NULL, UNIQUE, FK → `orders.id` | Order associated with the payment.                     |
-| `amount`                | DECIMAL(10,2)   | NOT NULL                           | Amount processed for the order.                        |
+| Column Name             | Data Type       | Constraints                        | Description                                       |
+| ----------------------- | --------------- | ---------------------------------- | ------------------------------------------------- |
+| `id`                    | BIGINT UNSIGNED | Primary Key, Auto Increment        | Unique payment identifier.                        |
+| `order_id`              | BIGINT UNSIGNED | NOT NULL, UNIQUE, FK → `orders.id` | Order associated with the payment.                |
+| `amount`                | DECIMAL(10,2)   | NOT NULL                           | Amount processed for the order.                   |
 | `payment_method`        | ENUM            | NOT NULL                           | Allowed values: `telebirr` or `card`.             |
-| `status`                | ENUM            | NOT NULL, DEFAULT `pending`        | `pending`, `paid`, `failed`, or `refunded`.            |
-| `transaction_reference` | VARCHAR(255)    | NULL, UNIQUE                       | Payment gateway transaction/reference identifier.      |
-| `paid_at`               | TIMESTAMP       | NULL                               | Date and time payment was successfully completed.      |
-| `created_at`            | TIMESTAMP       | Auto Generated                     | Record creation timestamp.                             |
-| `updated_at`            | TIMESTAMP       | Auto Generated                     | Record update timestamp.                               |
+| `status`                | ENUM            | NOT NULL, DEFAULT `pending`        | `pending`, `paid`, `failed`, or `refunded`.       |
+| `transaction_reference` | VARCHAR(255)    | NULL, UNIQUE                       | Payment gateway transaction/reference identifier. |
+| `paid_at`               | TIMESTAMP       | NULL                               | Date and time payment was successfully completed. |
+| `created_at`            | TIMESTAMP       | Auto Generated                     | Record creation timestamp.                        |
+| `updated_at`            | TIMESTAMP       | Auto Generated                     | Record update timestamp.                          |
 
 ### Foreign Keys
 
@@ -431,29 +451,28 @@ Stores the location history of drivers while they are working. Every location up
 
 This allows the system to retrieve the driver's latest location for real-time tracking while also preserving historical location data.
 
-| Column Name   | Data Type       | Constraints                         | Description                          |
-| ------------- | --------------- | ----------------------------------- | ------------------------------------ |
-| `id`          | BIGINT UNSIGNED | Primary Key, Auto Increment         | Unique location record identifier.   |
-| `driver_id`   | BIGINT UNSIGNED | NOT NULL, FK → `driver_profiles.id` | Driver associated with the location. |
-| `latitude`    | DECIMAL(10,7)   | NOT NULL                            | Geographic latitude.                 |
-| `longitude`   | DECIMAL(10,7)   | NOT NULL                            | Geographic longitude.                |
-| `recorded_at` | TIMESTAMP       | NOT NULL                            | Time when the location was recorded. |
-| `created_at`  | TIMESTAMP       | Auto Generated                      | Record creation timestamp.           |
-| `updated_at`  | TIMESTAMP       | Auto Generated                      | Record update timestamp.             |
+| Column Name         | Data Type       | Constraints                         | Description                          |
+| ------------------- | --------------- | ----------------------------------- | ------------------------------------ |
+| `id`                | BIGINT UNSIGNED | Primary Key, Auto Increment         | Unique location record identifier.   |
+| `driver_profile_id` | BIGINT UNSIGNED | NOT NULL, FK → `driver_profiles.id` | Driver associated with the location. |
+| `latitude`          | DECIMAL(10,7)   | NOT NULL                            | Geographic latitude.                 |
+| `longitude`         | DECIMAL(10,7)   | NOT NULL                            | Geographic longitude.                |
+| `recorded_at`       | TIMESTAMP       | NOT NULL                            | Time when the location was recorded. |
+| `created_at`        | TIMESTAMP       | Auto Generated                      | Record creation timestamp.           |
+| `updated_at`        | TIMESTAMP       | Auto Generated                      | Record update timestamp.             |
 
 ### Indexes
 
-| Column        | Index Type  | Purpose                                           |
-| ------------- | ----------- | ------------------------------------------------- |
-| `id`          | Primary Key | Unique record identification.                     |
-| `driver_id`   | INDEX       | Improve retrieval of a driver's location history. |
-| `recorded_at` | INDEX       | Improve time-based location queries.              |
+| Column                               | Index Type  | Purpose                                                                  |
+| ------------------------------------ | ----------- | ------------------------------------------------------------------------ |
+| `id`                                 | Primary Key | Unique record identification.                                            |
+| (`driver_profile_id`, `recorded_at`) | INDEX       | Improve retrieval of a driver's location history in chronological order. |
 
 ### Foreign Keys
 
-| Column      | References            | On Delete | On Update |
-| ----------- | --------------------- | --------- | --------- |
-| `driver_id` | `driver_profiles(id)` | CASCADE   | CASCADE   |
+| Column              | References            | On Delete | On Update |
+| ------------------- | --------------------- | --------- | --------- |
+| `driver_profile_id` | `driver_profiles(id)` | CASCADE   | CASCADE   |
 
 ### Relationships
 

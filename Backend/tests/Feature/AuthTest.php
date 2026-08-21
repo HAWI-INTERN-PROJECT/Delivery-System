@@ -19,6 +19,7 @@ class AuthTest extends TestCase
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'username' => 'johndoe',
+            'phone' => '0912345678',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ];
