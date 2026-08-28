@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatRelativeTime } from '@/lib/formatRelativeTime'
-import type { Order } from '@/types/orders'
+import type { Order } from '@/types/Orders'
 import { formatOrderTotal, getOrderStatusMeta } from './orderStatusConfig'
 import { OrderStatusBadge } from './OrderStatusBadge'
 

@@ -1,5 +1,5 @@
 import api from '@/lib/api'
-import type { OrdersListResponse, OrdersQueryParams } from '@/types/orders'
+import type { OrdersListResponse, OrdersQueryParams } from '@/types/Orders'
 
 interface ApiSuccessResponse<T> {
   success: boolean

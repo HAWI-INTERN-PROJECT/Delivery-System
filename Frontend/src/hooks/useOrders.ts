@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { PlaceOrderData } from '@/lib/customer/orderService'
 import { getOrders, getOrder, placeOrder } from '@/lib/customer/orderService'
 import { fetchOrders } from '@/lib/ordersApi'
-import type { OrdersQueryParams } from '@/types/orders'
+import type { OrdersQueryParams } from '@/types/Orders'
 
 // Customer-facing hooks (your partner's code)
 export function useOrdersQuery(status?: string) {

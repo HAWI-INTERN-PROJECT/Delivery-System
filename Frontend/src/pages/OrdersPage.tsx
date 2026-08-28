@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useOrders } from '@/hooks/useOrders'
-import type { Order, OrderFilterStatus, OrderStats } from '@/types/orders'
+import type { Order, OrderFilterStatus, OrderStats } from '@/types/Orders'
 import {
   OrderStatCard,
   StatusLegend,

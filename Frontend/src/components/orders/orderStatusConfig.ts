@@ -6,7 +6,7 @@ import {
   Truck,
   CheckCircle,
 } from 'lucide-react'
-import type { OrderFilterStatus, OrderStatus } from '@/types/orders'
+import type { OrderFilterStatus, OrderStatus } from '@/types/Orders'
 
 export interface OrderStatusMeta {
   label: string

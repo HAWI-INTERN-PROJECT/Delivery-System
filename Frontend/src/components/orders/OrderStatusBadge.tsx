@@ -1,4 +1,4 @@
-import type { OrderStatus } from '@/types/orders'
+import type { OrderStatus } from '@/types/Orders'
 import { cn } from '@/lib/utils'
 import { getOrderStatusMeta } from './orderStatusConfig'
 

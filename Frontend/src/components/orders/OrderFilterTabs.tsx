@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import type { OrderFilterStatus } from '@/types/orders'
+import type { OrderFilterStatus } from '@/types/Orders'
 import { ORDER_FILTER_OPTIONS } from './orderStatusConfig'
 
 export interface OrderFilterTabsProps {
