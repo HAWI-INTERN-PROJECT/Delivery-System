@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\MenuItemController;
+use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\RestaurantController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,8 @@ Route::middleware(['auth:sanctum', 'throttle:authenticated'])->group(function ()
     Route::post('email/resend', [AuthController::class, 'resendVerificationEmail'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
+
+    Route::get('orders', [OrderController::class, 'index'])->name('api.v1.orders.index');
 
         // Restaurant Manager routes
     Route::middleware('role:restaurant_manager')->group(function (): void {
