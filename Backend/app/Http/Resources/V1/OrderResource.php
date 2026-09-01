@@ -27,11 +27,11 @@ class OrderResource extends JsonResource
             'orderNumber' => sprintf('#ORD-%04d', $this->id),
             'customer' => [
                 'id' => $this->customer?->id,
-                'name' => $this->customer?->name ?? 'Unknown Customer',
+                'name' => $this->customer->name ?? 'Unknown Customer',
             ],
             'restaurant' => [
                 'id' => $this->restaurant?->id,
-                'name' => $this->restaurant?->name ?? 'Unknown Restaurant',
+                'name' => $this->restaurant->name ?? 'Unknown Restaurant',
             ],
             'status' => $this->status,
             'totalAmount' => (float) $this->total_amount,
