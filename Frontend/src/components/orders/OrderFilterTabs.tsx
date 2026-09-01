@@ -20,9 +20,9 @@ export function OrderFilterTabs({ value, onChange }: OrderFilterTabsProps) {
             onClick={() => onChange(option.value)}
             className={cn(
               'rounded-full px-4 py-2 text-sm font-medium transition-colors',
-              isActive
-                ? 'bg-slate-900 text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-50',
+             isActive
+                  ? 'bg-slate-900 text-white'
+                  : 'bg-background text-muted-foreground hover:bg-muted',
             )}
           >
             {option.label}
