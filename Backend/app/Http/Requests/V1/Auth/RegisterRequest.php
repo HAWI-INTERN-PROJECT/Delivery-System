@@ -26,6 +26,12 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'max:255', 'unique:users', 'alpha_dash'],
+           'phone' => [
+                        'required',
+                        'string',
+                        'regex:/^09\d{8}$/',
+                        'unique:users',
+                      ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'string', 'min:8'],
             'remember_me' => 'boolean',

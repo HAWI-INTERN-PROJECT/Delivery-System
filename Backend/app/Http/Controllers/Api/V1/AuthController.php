@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1;
-//
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\ForgotPasswordRequest;
 use App\Http\Requests\V1\Auth\LoginRequest;
@@ -42,6 +42,7 @@ class AuthController extends Controller
                     'name' => $request->name,
                     'email' => $request->email,
                     'username' => $request->username,
+                    'phone' => $request->phone,
                     'password' => Hash::make($request->password),
                 ]);
 
@@ -120,7 +121,7 @@ class AuthController extends Controller
 
         // Update password
         $user = User::find($request->user()->id);
-        $user->password = Hash::make($request->password);
+           $user->password = Hash::make($request->password);
         $user->save();
 
         ActivityLogger::passwordChanged($request);
@@ -222,7 +223,7 @@ class AuthController extends Controller
                 $request->only('email', 'password', 'password_confirmation', 'token'),
                 function (User $user, string $password) {
                     // Update password
-                    $user->forceFill([
+                   $user->forceFill([
                         'password' => Hash::make($password),
                     ])->save();
 
