@@ -6,7 +6,7 @@ import type {
   RegisterManagerInput,
   UserRole,
   UserStatus,
-} from '@/types/users'
+} from '@/types/Users'
 
 interface UserApiRecord {
   id: number

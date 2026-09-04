@@ -1,4 +1,4 @@
-import type { UserStatus } from '@/types/users'
+import type { UserStatus } from '@/types/Users'
 import { cn } from '@/lib/utils'
 import { USER_STATUS_STYLES } from './userConfig'
 

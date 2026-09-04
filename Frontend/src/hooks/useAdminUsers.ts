@@ -11,7 +11,7 @@ import type {
   RegisterDriverInput,
   RegisterManagerInput,
   UserStatus,
-} from '@/types/users'
+} from '@/types/Users'
 
 const QUERY_KEY = ['users'] as const
 const LOCAL_USERS_KEY = 'admin-local-users'

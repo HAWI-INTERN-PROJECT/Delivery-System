@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { RegisterDriverInput } from '@/types/users'
+import type { RegisterDriverInput } from '@/types/Users'
 import { UserFormModal } from './UserFormModal'
 import { UserFormField, UserFormSelect } from './UserFormField'
 import { VEHICLE_TYPE_OPTIONS } from './userConfig'
