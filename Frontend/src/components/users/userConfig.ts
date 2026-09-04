@@ -1,4 +1,4 @@
-import type { UserRole, UserStatus } from '@/types/users'
+import type { UserRole, UserStatus } from '@/types/Users'
 
 export const USER_ROLE_LABELS: Record<UserRole, string> = {
   customer: 'Customer',

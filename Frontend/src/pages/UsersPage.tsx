@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Plus } from 'lucide-react'
-import type { UserRoleFilter } from '@/types/users'
+import type { UserRoleFilter } from '@/types/Users'
 import { useAdminUsers } from '@/hooks/useAdminUsers'
 import {
   RegisterDriverModal,

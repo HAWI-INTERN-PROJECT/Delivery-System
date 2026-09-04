@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDisplayDate } from '@/lib/formatDisplayDate'
-import type { AdminUser } from '@/types/users'
+import type { AdminUser } from '@/types/Users'
 import { UserAvatar } from './UserAvatar'
 import { UserRoleBadge } from './UserRoleBadge'
 import { UserStatusBadge } from './UserStatusBadge'

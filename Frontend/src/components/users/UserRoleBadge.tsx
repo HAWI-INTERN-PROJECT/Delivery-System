@@ -1,4 +1,4 @@
-import type { UserRole } from '@/types/users'
+import type { UserRole } from '@/types/Users'
 import { cn } from '@/lib/utils'
 import { USER_ROLE_LABELS } from './userConfig'
 

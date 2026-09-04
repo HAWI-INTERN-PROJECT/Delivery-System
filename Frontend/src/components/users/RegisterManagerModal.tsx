@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { RegisterManagerInput } from '@/types/users'
+import type { RegisterManagerInput } from '@/types/Users'
 import { UserFormModal } from './UserFormModal'
 import { UserFormField } from './UserFormField'
 

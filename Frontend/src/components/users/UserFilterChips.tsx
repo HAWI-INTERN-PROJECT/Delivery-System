@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import type { UserRoleFilter } from '@/types/users'
+import type { UserRoleFilter } from '@/types/Users'
 import { USER_FILTER_OPTIONS } from './userConfig'
 
 export interface UserFilterChipsProps {
