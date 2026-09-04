@@ -17,6 +17,7 @@ import AdminRestaurantsPage from '@/pages/RestaurantsPage'
 import CategoriesPage from '@/pages/CategoriesPage'
 import AdminOrdersPage from '@/pages/OrdersPage'
 import UsersPage from '@/pages/UsersPage'
+import ApplicationsPage from '@/pages/ApplicationsPage'
 import SettingsPage from '@/pages/SettingsPage'
 import StatisticsPage from '@/pages/StatisticsPage'
 
@@ -104,6 +105,7 @@ export default function App() {
               <Route path="/admin/categories" element={<CategoriesPage />} />
               <Route path="/admin/orders" element={<AdminOrdersPage />} />
               <Route path="/admin/users" element={<UsersPage />} />
+              <Route path="/admin/applications" element={<ApplicationsPage />} />
               <Route path="/admin/settings" element={<SettingsPage />} />
               <Route path="/admin/statistics" element={<StatisticsPage />} />
             </Route>
