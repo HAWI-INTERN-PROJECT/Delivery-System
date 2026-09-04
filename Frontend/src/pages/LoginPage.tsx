@@ -30,7 +30,7 @@ export default function LoginPage() {
     try {
       await login(data)
       toast.success('Logged in successfully')
-      navigate('/dashboard')
+      navigate('/home')
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Login failed'
       toast.error(message)

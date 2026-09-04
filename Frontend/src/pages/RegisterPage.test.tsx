@@ -28,7 +28,7 @@ describe('RegisterPage', () => {
     expect(screen.getByLabelText('Name')).toBeInTheDocument()
     expect(screen.getByLabelText('Email')).toBeInTheDocument()
     expect(screen.getByLabelText('Username')).toBeInTheDocument()
-    expect(screen.getByLabelText('Phone number')).toBeInTheDocument()
+    expect(screen.getByLabelText('Phone Number')).toBeInTheDocument()
     expect(screen.getByLabelText('Password')).toBeInTheDocument()
     expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument()
@@ -59,27 +59,28 @@ describe('RegisterPage', () => {
     expect(await screen.findByText('Name is required')).toBeInTheDocument()
   })
 
-  it('validates phone is required', async () => {
-  const user = userEvent.setup()
+  it('validates phone format', async () => {
+    const user = userEvent.setup()
 
-  render(
-    <MemoryRouter>
-      <RegisterPage />
-    </MemoryRouter>
-  )
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    )
 
-  await user.type(screen.getByLabelText('Name'), 'John Doe')
-  await user.type(screen.getByLabelText('Email'), 'john@example.com')
-  await user.type(screen.getByLabelText('Username'), 'johndoe')
-  await user.type(screen.getByLabelText('Password'), 'password123')
-  await user.type(screen.getByLabelText('Confirm Password'), 'password123')
+    await user.type(screen.getByLabelText('Name'), 'John Doe')
+    await user.type(screen.getByLabelText('Email'), 'john@example.com')
+    await user.type(screen.getByLabelText('Username'), 'johndoe')
+    await user.type(screen.getByLabelText('Phone Number'), 'invalid')
+    await user.type(screen.getByLabelText('Password'), 'password123')
+    await user.type(screen.getByLabelText('Confirm Password'), 'password123')
 
-  await user.click(screen.getByRole('button', { name: /sign up/i }))
+    await user.click(screen.getByRole('button', { name: /sign up/i }))
 
-  expect(
-    await screen.findByText('Phone number is required')
-  ).toBeInTheDocument()
-})
+    expect(
+      await screen.findByText('Phone number must start with 09 and have 10 digits')
+    ).toBeInTheDocument()
+  })
 
   it('validates email format', async () => {
     const user = userEvent.setup()
@@ -159,7 +160,7 @@ describe('RegisterPage', () => {
     await user.type(screen.getByLabelText('Name'), 'John Doe')
     await user.type(screen.getByLabelText('Email'), 'john@example.com')
     await user.type(screen.getByLabelText('Username'), 'johndoe')
-    await user.type(screen.getByLabelText('Phone number'), '0912345678')
+    await user.type(screen.getByLabelText('Phone Number'), '0912345678')
     await user.type(screen.getByLabelText('Password'), 'password123')
     await user.type(screen.getByLabelText('Confirm Password'), 'password123')
     await user.click(screen.getByRole('button', { name: /sign up/i }))

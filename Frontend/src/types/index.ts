@@ -4,6 +4,8 @@ export interface User {
   email: string
   username: string
   phone: string
+  role: 'customer' | 'driver' | 'manager' | 'admin'
+  status: string
   email_verified_at: string | null
   created_at: string
   updated_at: string
@@ -41,3 +43,6 @@ export interface ApiError {
   message: string
   errors?: Record<string, string[]>
 }
+
+// Re-export customer types
+export * from './Customer'

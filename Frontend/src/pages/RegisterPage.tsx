@@ -19,7 +19,7 @@ export default function RegisterPage() {
     name: z.string().min(1, t('auth.nameRequired')),
     email: z.string().email('Invalid email address'),
     username: z.string().min(3, 'Username must be at least 3 characters'),
-    phone: z.string().min(1, 'Phone number is required'),
+    phone: z.string().regex(/^09\d{8}$/, 'Phone number must start with 09 and have 10 digits'),
     password: z.string().min(8, t('auth.passwordMin')),
     password_confirmation: z.string(),
   }).refine((data) => data.password === data.password_confirmation, {
@@ -37,7 +37,7 @@ export default function RegisterPage() {
     try {
       await registerUser(data)
       toast.success('Account created successfully')
-      navigate('/dashboard')
+      navigate('/home')
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Registration failed'
       toast.error(message)
@@ -75,7 +75,7 @@ export default function RegisterPage() {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone number</Label>
+              <Label htmlFor="phone">Phone Number</Label>
               <Input id="phone" type="tel" placeholder="0912345678" {...register('phone')} />
               {errors.phone && (
                 <p className="text-sm text-destructive">{errors.phone.message}</p>
