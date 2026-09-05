@@ -6,7 +6,7 @@ import {
   fetchApplications,
   rejectApplication,
 } from '@/lib/applicationsApi'
-import type { ApplicationStatus, RestaurantApplication } from '@/types/applications'
+import type { ApplicationStatus, RestaurantApplication } from '@/types/Applications'
 
 const QUERY_KEY = ['applications'] as const
 const OVERRIDE_KEY = 'admin-application-status-overrides'

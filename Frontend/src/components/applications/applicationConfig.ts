@@ -1,4 +1,4 @@
-import type { ApplicationStatus } from '@/types/applications'
+import type { ApplicationStatus } from '@/types/Applications'
 
 export const APPLICATION_STATUS_STYLES: Record<
   Exclude<ApplicationStatus, 'approved'>,

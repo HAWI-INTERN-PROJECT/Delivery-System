@@ -1,4 +1,4 @@
-import type { ApplicationStatus } from '@/types/applications'
+import type { ApplicationStatus } from '@/types/Applications'
 import { cn } from '@/lib/utils'
 import { APPLICATION_STATUS_STYLES } from './applicationConfig'
 

@@ -1,5 +1,5 @@
 import { formatDisplayDate } from '@/lib/formatDisplayDate'
-import type { RestaurantApplication } from '@/types/applications'
+import type { RestaurantApplication } from '@/types/Applications'
 import { ApplicationActions } from './ApplicationActions'
 import { ApplicationStatusBadge } from './ApplicationStatusBadge'
 import { getApplicationInitial } from './applicationConfig'

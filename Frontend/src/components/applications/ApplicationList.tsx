@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import type { RestaurantApplication } from '@/types/applications'
+import type { RestaurantApplication } from '@/types/Applications'
 import { ApplicationCard } from './ApplicationCard'
 
 export interface ApplicationListProps {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import api from '@/lib/api'
 import { updateRestaurantApproval } from '@/lib/restaurantsApi'
-import type { ApplicationStatus, RestaurantApplication } from '@/types/applications'
+import type { ApplicationStatus, RestaurantApplication } from '@/types/Applications'
 
 interface ApplicationApiRecord {
   id: number

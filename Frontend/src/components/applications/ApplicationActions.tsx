@@ -1,5 +1,5 @@
 import { CheckCircle2, RotateCcw, XCircle } from 'lucide-react'
-import type { ApplicationStatus } from '@/types/applications'
+import type { ApplicationStatus } from '@/types/Applications'
 
 export interface ApplicationActionsProps {
   status: ApplicationStatus
