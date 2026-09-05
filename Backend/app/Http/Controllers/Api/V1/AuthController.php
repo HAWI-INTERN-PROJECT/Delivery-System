@@ -71,7 +71,6 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): AuthResource | JsonResponse
     {
-
         $request->authenticate();
 
         $user = $request->user();
@@ -111,17 +110,16 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        // check if current password is correct
+        // Check if current password is correct
         if (! Hash::check($request->current_password, $request->user()->password)) {
-
             throw ValidationException::withMessages([
-                'current_password' => __('auth.failed')
+                'current_password' => __('auth.failed'),
             ]);
         }
 
         // Update password
         $user = User::find($request->user()->id);
-           $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->password);
         $user->save();
 
         ActivityLogger::passwordChanged($request);
@@ -220,10 +218,15 @@ class AuthController extends Controller
     {
         try {
             $status = Password::reset(
-                $request->only('email', 'password', 'password_confirmation', 'token'),
+                $request->only(
+                    'email',
+                    'password',
+                    'password_confirmation',
+                    'token'
+                ),
                 function (User $user, string $password) {
                     // Update password
-                   $user->forceFill([
+                    $user->forceFill([
                         'password' => Hash::make($password),
                     ])->save();
 
@@ -246,24 +249,52 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  array<string, string>  $messages
+     * @param array<string, string> $messages
      */
-    protected function passwordResponse(string $status, array $messages = []): JsonResponse
-    {
+    protected function passwordResponse(
+        string $status,
+        array $messages = []
+    ): JsonResponse {
         $map = [
-            Password::RESET_LINK_SENT => ['message' => $messages['sent'] ?? __('passwords.sent'), 'code' => 200],
-            Password::PASSWORD_RESET => ['message' => $messages['reset'] ?? __('passwords.reset'), 'code' => 200],
-            Password::INVALID_USER => ['message' => $messages['user'] ?? __('passwords.user'), 'code' => 404],
-            Password::INVALID_TOKEN => ['message' => $messages['token'] ?? __('passwords.token'), 'code' => 400],
-            Password::RESET_THROTTLED => ['message' => $messages['throttled'] ?? __('passwords.throttled'), 'code' => 429],
+            Password::RESET_LINK_SENT => [
+                'message' => $messages['sent'] ?? __('passwords.sent'),
+                'code' => 200,
+            ],
+            Password::PASSWORD_RESET => [
+                'message' => $messages['reset'] ?? __('passwords.reset'),
+                'code' => 200,
+            ],
+            Password::INVALID_USER => [
+                'message' => $messages['user'] ?? __('passwords.user'),
+                'code' => 404,
+            ],
+            Password::INVALID_TOKEN => [
+                'message' => $messages['token'] ?? __('passwords.token'),
+                'code' => 400,
+            ],
+            Password::RESET_THROTTLED => [
+                'message' => $messages['throttled'] ?? __('passwords.throttled'),
+                'code' => 429,
+            ],
         ];
 
-        $response = $map[$status] ?? ['message' => $messages['default'] ?? __('passwords.unable_to_reset_password'), 'code' => 500];
+        $response = $map[$status] ?? [
+            'message' => $messages['default']
+                ?? __('passwords.unable_to_reset_password'),
+            'code' => 500,
+        ];
 
         if ($response['code'] >= 400) {
-            return $this->error($response['message'], $response['code']);
+            return $this->error(
+                $response['message'],
+                $response['code']
+            );
         }
 
-        return $this->success(null, $response['message'], $response['code']);
+        return $this->success(
+            null,
+            $response['message'],
+            $response['code']
+        );
     }
 }
