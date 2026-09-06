@@ -128,4 +128,31 @@ public static function restaurantDeleted(?Request $request = null): void
             $request
         );
     }
+
+    public static function categoryCreated(?Request $request = null): void
+    {
+        self::log(
+            'category_created',
+            'Category created',
+            $request
+        );
+    }
+
+    public static function categoryUpdated(?Request $request = null): void
+    {
+        self::log(
+             'category_updated',
+             'Category updated',
+            $request
+        );
+    }
+
+    public static function categoryDeleted(?Request $request = null): void
+    {
+        self::log(
+             'category_deleted',
+             'Category deleted',
+            $request
+        );
+    }
 }
