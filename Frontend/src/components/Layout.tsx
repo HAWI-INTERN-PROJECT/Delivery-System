@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useAuthStore } from '@/stores/auth'
+import { useApplications } from '@/hooks/useApplications'
 import {
   SidebarProvider,
   Sidebar,
@@ -9,26 +10,41 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuBadge,
   SidebarTrigger,
 } from './ui/sidebar'
 import Navbar from './Navbar'
-import { LayoutDashboard, Store, Tags, Package, Users, Settings, BarChart3 } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Store,
+  Tags,
+  ClipboardList,
+  Package,
+  Users,
+  Settings,
+  BarChart3,
+} from 'lucide-react'
+
+const ADMIN_PAGE_TITLES: Record<string, string> = {
+  '/admin': 'Dashboard',
+  '/admin/restaurants': 'Restaurants',
+  '/admin/categories': 'Categories',
+  '/admin/applications': 'Applications',
+  '/admin/orders': 'Orders',
+  '/admin/users': 'Users',
+  '/admin/settings': 'Settings',
+  '/admin/statistics': 'Statistics',
+}
+
+const activeMenuClass =
+  'data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg'
 
 export default function Layout() {
   const location = useLocation()
   const { user } = useAuthStore()
-
-  const pageTitles: Record<string, string> = {
-    '/': 'Dashboard',
-    '/restaurants': 'Restaurants',
-    '/categories': 'Categories',
-    '/orders': 'Orders',
-    '/users': 'Users',
-    '/settings': 'Settings',
-    '/statistics': 'Statistics',
-  }
-
-  const currentTitle = pageTitles[location.pathname] || 'Dashboard'
+  const { stats } = useApplications()
+  const pendingApplications = stats.pending
+  const currentTitle = ADMIN_PAGE_TITLES[location.pathname] || 'Dashboard'
 
   return (
     <SidebarProvider>
@@ -42,9 +58,9 @@ export default function Layout() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/" />}
-                  isActive={location.pathname === '/'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin" />}
+                  isActive={location.pathname === '/admin'}
+                  className={activeMenuClass}
                 >
                   <LayoutDashboard />
                   <span className="group-data-[collapsible=icon]:hidden">Dashboard</span>
@@ -53,9 +69,9 @@ export default function Layout() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/restaurants" />}
-                  isActive={location.pathname === '/restaurants'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin/restaurants" />}
+                  isActive={location.pathname === '/admin/restaurants'}
+                  className={activeMenuClass}
                 >
                   <Store />
                   <span className="group-data-[collapsible=icon]:hidden">Restaurants</span>
@@ -64,9 +80,9 @@ export default function Layout() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/categories" />}
-                  isActive={location.pathname === '/categories'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin/categories" />}
+                  isActive={location.pathname === '/admin/categories'}
+                  className={activeMenuClass}
                 >
                   <Tags />
                   <span className="group-data-[collapsible=icon]:hidden">Categories</span>
@@ -75,9 +91,25 @@ export default function Layout() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/orders" />}
-                  isActive={location.pathname === '/orders'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin/applications" />}
+                  isActive={location.pathname === '/admin/applications'}
+                  className={activeMenuClass}
+                >
+                  <ClipboardList />
+                  <span className="group-data-[collapsible=icon]:hidden flex-1">Applications</span>
+                </SidebarMenuButton>
+                {pendingApplications > 0 && (
+                  <SidebarMenuBadge className="bg-slate-900 text-white peer-data-active/menu-button:bg-white peer-data-active/menu-button:text-slate-900">
+                    {pendingApplications}
+                  </SidebarMenuBadge>
+                )}
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  render={<Link to="/admin/orders" />}
+                  isActive={location.pathname === '/admin/orders'}
+                  className={activeMenuClass}
                 >
                   <Package />
                   <span className="group-data-[collapsible=icon]:hidden flex-1">Orders</span>
@@ -86,9 +118,9 @@ export default function Layout() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/users" />}
-                  isActive={location.pathname === '/users'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin/users" />}
+                  isActive={location.pathname === '/admin/users'}
+                  className={activeMenuClass}
                 >
                   <Users />
                   <span className="group-data-[collapsible=icon]:hidden">Users</span>
@@ -97,9 +129,9 @@ export default function Layout() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/settings" />}
-                  isActive={location.pathname === '/settings'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin/settings" />}
+                  isActive={location.pathname === '/admin/settings'}
+                  className={activeMenuClass}
                 >
                   <Settings />
                   <span className="group-data-[collapsible=icon]:hidden">Settings</span>
@@ -108,9 +140,9 @@ export default function Layout() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<Link to="/statistics" />}
-                  isActive={location.pathname === '/statistics'}
-                  className="data-active:bg-slate-900 data-active:text-white data-active:hover:bg-slate-900 data-active:hover:text-white rounded-lg"
+                  render={<Link to="/admin/statistics" />}
+                  isActive={location.pathname === '/admin/statistics'}
+                  className={activeMenuClass}
                 >
                   <BarChart3 />
                   <span className="group-data-[collapsible=icon]:hidden">Statistics</span>
